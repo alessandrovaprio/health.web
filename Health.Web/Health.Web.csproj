@@ -23,4 +23,9 @@
   <ItemGroup>
     <Folder Include="wwwroot\kendo\" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Update="Views\Shared\_header.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+  </ItemGroup>
 </Project>
