@@ -1,0 +1,28 @@
+﻿@model IEnumerable<Heartbeat>
+    @{
+    ViewBag.Title = "Hearthbeat";
+    }
+
+    @section Breadcrumb {
+    Home > Index
+    }
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>DeviceId</th>
+                <th>Timestamp</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        @foreach (var m in Model)
+        {
+        <tr>
+            <td>@m.Id</td>
+            <td>@m.DeviceId</td>
+            <td>@m.Timestamp</td>
+            <td>@m.Value</td>
+        </tr>
+        }
+    </table>
