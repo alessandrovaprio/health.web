@@ -28,6 +28,14 @@ body {
     margin: 15px;
 }
 
+#div_bckgrnd_img {
+    background-color: lightblue;
+    background-image: url('https://lh3.googleusercontent.com/4Tdzuo_bi_lcgTXz6WRlkzMaUWSXQiACJiwt7VGNcOTsOf-r5MitMrVHFGdHNdQWRQ');
+    background-size: cover;
+    /*width: 100%;*/
+    min-height: 300px;
+    height: 600px;
+}
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
     /* Hide captions */
