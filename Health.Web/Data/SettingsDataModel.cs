@@ -1,5 +1,5 @@
 ﻿using System;
-namespace Health.Web.Data
+namespace Health.Web
 {
     public class SettingsDataModel
     {

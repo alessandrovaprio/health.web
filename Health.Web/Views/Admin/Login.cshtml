@@ -1,0 +1,57 @@
+﻿@model User
+@{
+}
+
+
+<p> Sono in Area Login</p>
+
+
+
+@using (Html.BeginForm("Login", "Admin", FormMethod.Post))
+{
+    <table cellpadding="0" cellspacing="0">
+        <tr>
+            <th colspan="2" align="center">User Login</th>
+        </tr>
+        <tr>
+            <td>userId: </td>
+            <td>
+                @Html.TextBoxFor(m => m.Email)
+            </td>
+        </tr>
+        <tr>
+            <td>Name: </td>
+            <td>
+                @Html.TextBoxFor(m => m.Password)
+            </td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td><input type="submit" value="Submit" /></td>
+        </tr>
+    </table>
+}
+
+
+@*<table border="1">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>DeviceId</th>
+                <th>Timestamp</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        @foreach (var m in Model)
+        {
+            <tr>
+                <td>@m.Id</td>
+                <td>@m.DeviceId</td>
+                <td>@m.Timestamp</td>
+                <td>@m.Value</td>
+            </tr>
+        }
+    </table>*@
+
+

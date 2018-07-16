@@ -1,24 +1,25 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Pomelo.EntityFrameworkCore.MySql;
+﻿using Health.Web.Models;
+using LinqToDB;
+using LinqToDB.Data;
+using LinqToDB.DataProvider;
+
 
 namespace Health.Web.Models
 {
-    public class HealthWebContext : DbContext
+    public class HealthDataContext : DataConnection
     {
         /*public HealthWebContext(DbContextOptions<HealthWebContext> options): base(options)
         {
             
         }*/
 
-        public DbSet<User> Users { get; set; }
+        public HealthDataContext(IDataProvider dataProvider, string connectionString)
+            : base(dataProvider, connectionString)
+        { }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseMySQL("server=localhost;database=health_web;user=root;password=Vprlsn90");
-        }
+        public ITable<User> Users => GetTable<User>();
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        /*protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
@@ -31,13 +32,13 @@ namespace Health.Web.Models
                 entity.Property(e => e.Password).IsRequired();
             });
 
-            /* modelBuilder.Entity<Book>(entity =>
+             modelBuilder.Entity<Book>(entity =>
              {
                  entity.HasKey(e => e.ISBN);
                  entity.Property(e => e.Title).IsRequired();
                  entity.HasOne(d => d.Publisher)
                    .WithMany(p => p.Books);
-             });*/
-        }
+             });
+        }*/
     }
 }

@@ -1,10 +1,10 @@
 ﻿using System;
 using LinqToDB.Mapping;
-using MySql.Data.EntityFrameworkCore;
+
 
 namespace Health.Web.Models
 {
-    public class User
+    public class User : IHasId<int>
     {
 		[PrimaryKey]
         [NotNull]
@@ -18,9 +18,9 @@ namespace Health.Web.Models
 
 		public string Password { get; set; }
 
-		/*public bool Admin { get; set; }
+		public bool Admin { get; set; }
 
-		public bool Doctor { get; set; }*/
+		public bool Doctor { get; set; }
 
         public DateTime Timestamp { get; set; }
 

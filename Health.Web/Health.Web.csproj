@@ -9,12 +9,20 @@
     <Content Remove="wwwroot\kendo\**" />
     <EmbeddedResource Remove="wwwroot\kendo\**" />
     <None Remove="wwwroot\kendo\**" />
+    <Content Remove="Models\User.cshtml" />
+    <None Remove="Models\User.tt" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="FontAwesome" Version="4.7.0" />
     <PackageReference Include="bootstrap" Version="4.1.1" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.1" />
+    <PackageReference Include="linq2db.Core" Version="1.10.2" />
+    <PackageReference Include="MySql.Data" Version="8.0.11" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="3.0.0" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="7.6.104" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,4 +40,17 @@
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Data\" />
+    <Folder Include="Extensions\" />
+    <Folder Include="ActionFilters\" />
+    <Folder Include="Controllers\" />
+    <Folder Include="Views\Admin\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Health.Web.csproj" />
+  </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Migrations\" />
+    </ItemGroup>
 </Project>
