@@ -6,6 +6,8 @@ using Health.Web.Data;
 using Health.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 
+using System.Text;
+
 namespace Health.Web.Controllers
 {
     public class AdminController: BaseController
@@ -15,9 +17,11 @@ namespace Health.Web.Controllers
         public AdminController(IConfiguration configuration){
             _configuration = configuration;
         }
+
+
         public IActionResult Index()
         {
-            if (HttpContext.Request.Cookies["myAuth"] != null)
+            if (HttpContext.Request.Cookies["User"] != null)
             {
                 return View();
             }
@@ -25,7 +29,7 @@ namespace Health.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Login(User user)
+        public ActionResult Login(string email,string password)
         {
             var dbFactory = new HealthDataContextFactory(
                dataProvider: LinqToDB.DataProvider.MySql.MySqlTools.GetDataProvider(),
@@ -34,17 +38,20 @@ namespace Health.Web.Controllers
             using(var context= dbFactory.Create()){
                 IQueryable<User> userQuery =
                     from users in context.Users
-                    where user.Surname == "alessandro.vaprio@gmail.com" 
+                                             //where user.Surname == username and user.Password==password
                     select users;
                 
-                string username = "alessandro.vaprio@gmail.com";
-                var usr = context.Users.SingleOrDefault(u => u.Email == username);
-                if(usr.Admin){
+
+                var usr = context.Users.SingleOrDefault(u => u.Email == email);
+                if(usr.Admin && usr.Password==password){
+                    HttpContext.Session.Set("User", Encoding.Unicode.GetBytes(usr.Id.ToString()));
+                    ViewBag.Message = usr.Id;
+
                     return View("Index");
                 }
             }
 
-            return View();
+            return View("Login");
 
             /*int userId = user.Id;
             string name = user.Name;

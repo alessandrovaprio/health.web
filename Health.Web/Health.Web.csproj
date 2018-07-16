@@ -23,6 +23,7 @@
     <PackageReference Include="MySql.Data" Version="8.0.11" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="3.0.0" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="7.6.104" />
+    <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.1.1" />
   </ItemGroup>
 
   <ItemGroup>
