@@ -125,6 +125,7 @@ namespace Health.Web
         {
             using (var db = dataContext.Create())
             {
+                
                 db.CreateTableIfNotExists<User>();
                 /*db.CreateTableIfNotExists<FitbitDevice>();
                 db.CreateTableIfNotExists<Heartbeat>();*/
