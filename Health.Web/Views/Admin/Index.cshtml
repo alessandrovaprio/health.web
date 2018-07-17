@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<Heartbeat>
 @{
     ViewBag.Title = "Admin Area";
-
+    var data = (User)ViewData["UserInfo"];
 }
 
-<p>@ViewBag.Message Sono in Area Admin</p>
+<div>Benvenuto @data.Name @data.Surname nella tua Area Admin</div>
 
 
 

@@ -22,6 +22,8 @@ namespace Health.Web.Models
 
 		public bool Doctor { get; set; }
 
+        public bool RememberMe { get; set; }
+
         public DateTime Timestamp { get; set; }
 
         

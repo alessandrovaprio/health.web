@@ -93,12 +93,12 @@ namespace Health.Web
         {
             using (var db = dataContext.Create())
             {
-                
+                db.DropTable<User>();
                 db.CreateTableIfNotExists<User>();
                 /*db.CreateTableIfNotExists<FitbitDevice>();
                 db.CreateTableIfNotExists<Heartbeat>();*/
 
-                  db.InsertOrReplace(new User { Id = 1, Name="Alessandro",Surname="Vaprio",Email="alessandro.vaprio@gmail.com",Password="Vprlsn90",Admin=true,Doctor=true,Timestamp = DateTime.Now });
+                db.InsertOrReplace(new User { Id = 1, Name = "Alessandro", Surname = "Vaprio", Email = "alessandro.vaprio@gmail.com", Password = "Vprlsn90", Admin = true, Doctor = true, RememberMe = false, Timestamp = DateTime.Now });
                 /*db.InsertOrReplace(new FitbitDevice { Id = "D1", AccountId = "A1" });
                 db.InsertOrReplace(new FitbitDevice { Id = "D2", AccountId = "A2" });
 
