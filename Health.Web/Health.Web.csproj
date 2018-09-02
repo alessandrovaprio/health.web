@@ -11,6 +11,7 @@
     <None Remove="wwwroot\kendo\**" />
     <Content Remove="Models\User.cshtml" />
     <None Remove="Models\User.tt" />
+    <Content Remove="Views\Shared\_header %28copia%29.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -47,6 +48,7 @@
     <Folder Include="ActionFilters\" />
     <Folder Include="Controllers\" />
     <Folder Include="Views\Admin\" />
+    <Folder Include="Views\Signup\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Health.Web.csproj" />

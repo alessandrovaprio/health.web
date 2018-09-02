@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 
 using System.Web;
 using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
+using LinqToDB;
 
 namespace Health.Web.Controllers
 {
@@ -24,9 +27,22 @@ namespace Health.Web.Controllers
         [HttpPost]
         public IActionResult Index(string email, string password)
         {
+
+            User userModel = new User();
+            //valido il campo mail con regex e inserisco errore nello state model
+            string errValidateEmail = userModel.ValidateEmail(email);
+            if(errValidateEmail!=""){
+                ModelState.AddModelError("Email", errValidateEmail);
+            }
+            //se ci sono errori di validazione torna alla login con visualizzazione errore
+            if (!ModelState.IsValid)
+            {
+                return View("Login");
+            }
+
             if (HttpContext.Request.Cookies["User"] != null)
             {
-                ViewBag.UserInfo = GetUserInformation(Convert.ToInt32(HttpContext.Request.Cookies["User"].ToString()));
+                ViewBag.UserInfo = GetUserInformation(Convert.ToInt32(HttpContext.Request.Cookies["User"].ToString()),_configuration);
                 return View();
             }
             else
@@ -34,9 +50,14 @@ namespace Health.Web.Controllers
                 if (HttpContext.Request.Method == "POST")
                 {
                     int usrid=Login(email, password);
-                    ViewBag.UserInfo = GetUserInformation(usrid);
-                    return View();
+                    if(usrid!=0){
+                        ViewBag.UserInfo = GetUserInformation(usrid,_configuration);
+                        return View();    
+                    }
+
                 }
+                //se i parametri inseriti non restituiscono un utente, si ritorna un errore e la pagina di login
+                ModelState.AddModelError("Password", "Utente o pasword non corrette");
                 return View("Login");
             }
         }
@@ -50,21 +71,20 @@ namespace Health.Web.Controllers
            );
             using (var context = dbFactory.Create())
             {
-                IQueryable<User> userQuery =
-                    from users in context.Users
-                        //where user.Surname == username and user.Password==password
-                    select users;
+                var userquery = (from u in context.Users
+                             where u.Admin == true && u.Email == email && u.Password == password
+                                   
+                                   select u).Take(1);
+                
 
-
-                var usr = context.Users.SingleOrDefault(u => u.Email == email);
-                if (usr.Admin && usr.Password == password)
+                foreach (var u in userquery)
                 {
-                    SetCookie("User", usr.Id.ToString(), 20);
+                    SetCookie("User", u.Id.ToString(), 20);
                     //HttpContext.Session.Set("User", Encoding.Unicode.GetBytes(usr.Id.ToString()));
-                    return usr.Id;
-
-                    //return View("Index");
+                    return u.Id;
                 }
+
+
             }
             return 0;
             //return View("Login");
@@ -95,22 +115,61 @@ namespace Health.Web.Controllers
             //Response.Cookies["health"][key].Value=value;
         }
 
-        public User GetUserInformation(int id)
-        {
-            var dbFactory = new HealthDataContextFactory(
-             dataProvider: LinqToDB.DataProvider.MySql.MySqlTools.GetDataProvider(),
-              connectionString: _configuration.GetConnectionString("Health")
-            );
-            using (var context = dbFactory.Create())
-            {
-                IQueryable<User> userQuery =
-                    from users in context.Users
-                    where users.Id == id
-                    select users;
+       
 
-                var usr = context.Users.First();
-                return usr;
-            }
+        //---------------------------------------------------------------------------------
+
+        public IActionResult ShowUsers(){
+            MyDataContext dataContext = new MyDataContext();
+            var context = (IDataContextFactory<HealthDataContext>)dataContext.GetMyDataContextContext(_configuration);
+            //ViewBag.ListOfUsers = GetAllusers(context);
+            return View("Show",GetAllusers(context));
         }
+
+        public List<User> GetAllusers(IDataContextFactory<HealthDataContext> dbfactory)
+        {
+            List<User> users = new List<User>();
+            using (var context = dbfactory.Create())
+            {
+
+                users = context.Users.ToList();
+            }
+            return users;
+        }
+
+
+
+        public bool WriteUserToDB(User user)
+        {
+            MyDataContext dataContext = new MyDataContext();
+            var context = (IDataContextFactory<HealthDataContext>)dataContext.GetMyDataContextContext(_configuration);
+
+            using (var db = context.Create())
+            {
+                var lastidquery = (from u in db.Users
+                                       //where t.DeliverySelection == true && t.Delivery.SentForDelivery == null
+                                   orderby u.Id descending
+                                   select u).Take(1);
+                int id = 0;
+
+                foreach (var u in lastidquery)
+                {
+                    id = u.Id + 1;
+                }
+                if (id != 0)
+                {
+                    user.Id = id;
+                    if (db.Insert(user) > 0)
+                    {
+                        return true;
+                    }
+                }
+
+
+            }
+
+            return false;
+        }
+
     }
 }

@@ -1,4 +1,6 @@
-﻿using Health.Web.Models;
+﻿using System;
+using Health.Web.Data;
+using Health.Web.Models;
 using LinqToDB;
 using LinqToDB.Data;
 using LinqToDB.DataProvider;
@@ -18,6 +20,11 @@ namespace Health.Web.Models
         { }
 
         public ITable<User> Users => GetTable<User>();
+
+        public static explicit operator HealthDataContext(HealthDataContextFactory v)
+        {
+            throw new NotImplementedException();
+        }
 
         /*protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

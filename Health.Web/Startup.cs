@@ -22,6 +22,7 @@ namespace Health.Web
 {
     public class Startup
     {
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -33,7 +34,7 @@ namespace Health.Web
         public void ConfigureServices(IServiceCollection services)
         {
           
-
+           
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -97,7 +98,7 @@ namespace Health.Web
                 db.CreateTableIfNotExists<User>();
                 /*db.CreateTableIfNotExists<FitbitDevice>();
                 db.CreateTableIfNotExists<Heartbeat>();*/
-
+                db.InsertOrReplace(new User { Id = 0, Name = "Empty", Surname = "Empty", Email = "empty", Password = "empty", Admin = false, Doctor = false, RememberMe = false, Timestamp = DateTime.Now });
                 db.InsertOrReplace(new User { Id = 1, Name = "Alessandro", Surname = "Vaprio", Email = "alessandro.vaprio@gmail.com", Password = "Vprlsn90", Admin = true, Doctor = true, RememberMe = false, Timestamp = DateTime.Now });
                 /*db.InsertOrReplace(new FitbitDevice { Id = "D1", AccountId = "A1" });
                 db.InsertOrReplace(new FitbitDevice { Id = "D2", AccountId = "A2" });

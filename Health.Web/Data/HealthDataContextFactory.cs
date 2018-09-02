@@ -1,5 +1,6 @@
 ﻿using LinqToDB.DataProvider;
 using Health.Web.Models;
+using Microsoft.Extensions.Configuration;
 
 namespace Health.Web.Data
 {
@@ -16,5 +17,12 @@ namespace Health.Web.Data
         }
 
         public HealthDataContext Create() => new HealthDataContext(dataProvider, connectionString);
+
+
+       
+
+
     }
+
+
 }

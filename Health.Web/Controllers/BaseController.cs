@@ -1,6 +1,8 @@
-﻿using Health.Web.Data;
+﻿using System.Linq;
+using Health.Web.Data;
 using Health.Web.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 
 namespace Health.Web.Controllers
 {
@@ -21,5 +23,27 @@ namespace Health.Web.Controllers
 
             base.Dispose(disposing);
         }
+        public User GetUserInformation(int id,IConfiguration _configuration)
+        {
+            var dbFactory = new HealthDataContextFactory(
+             dataProvider: LinqToDB.DataProvider.MySql.MySqlTools.GetDataProvider(),
+              connectionString: _configuration.GetConnectionString("Health")
+            );
+            using (var context = dbFactory.Create())
+            {
+                IQueryable<User> userQuery =
+                    from users in context.Users
+                    where users.Id == id
+                    select users;
+
+                foreach (var user in userQuery)
+                {
+                    return user;
+                }
+
+            }
+            return null;
+        }
+       
     }
 }
