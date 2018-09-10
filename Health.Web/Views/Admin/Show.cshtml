@@ -22,25 +22,38 @@
         <tbody>
             @foreach(var user in Model)
             {
-            <tr>
-                <td>@user.Name</td>
-                <td>@user.Surname</td>
+                 
+                    <tr>
+
+                    <td class="form-control" name="Name">@user.Name</td>
+                    <td>@user.Surname</td>
+                    <td>@user.Email</td>
+                    @using (Html.BeginForm("UpdateSingleUser", "Admin", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
+                        <td style="display:none;"><input type="text" value=@user.Id></td>
+                        @if (user.Admin)
+                        {
+                            <td><input type="checkbox" name="chk_admin" checked></td>
+                        }
+                        else
+                        {
+                         <td><input type="checkbox" name="chk_admin"></td>
+                        }
+                        @if (user.Doctor)
+                        {
+                            <td><input type="checkbox" name="chk_doctor" checked></td>
+                        }
+                        else
+                        {
+                        <td><input type="checkbox" name="chk_doctor"></td>
+                        }
                 <td>@user.Email</td>
-                @if (user.Admin)
-                {
-                    <td><input type="checkbox" name="chk_admin" checked></td>
-                }else{ 
-                    <td><input type="checkbox" name="chk_admin"></td>
-                }
-                @if (user.Doctor)
-                {
-                    <td><input type="checkbox" name="chk_doctor" checked></td>
-                }else{ 
-                    <td><input type="checkbox" name="chk_doctor"></td>
-                }
-                <td>@user.Email</td>
-                <td><button type="submit" onclick="location.href='@Url.Action("ModifyUser", "Admin" )'">Salva</button></td>
-            </tr>
+                <td><button type="submit" class="btn btn-primary btn-block btn-flat">Salva</button></td>
+                <!--<td><button type="submit" onclick="location.href='@Url.Action("ModifyUser", "Admin")'">Salva</button></td>-->
+                   }
+            </tr>    
+                
+
             }
 
         </tbody>

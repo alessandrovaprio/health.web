@@ -52,11 +52,11 @@
                     {
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                        <div class="form-group has-feedback">
-                            @Html.HiddenFor(m => m.Id);
-                        </div>
                     <div class="form-group has-feedback">
-                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "User name"  })
+                        @Html.HiddenFor(m => m.Id)
+                    </div>
+                    <div class="form-group has-feedback">
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "User name" })
                         @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                         <span class="glyphicon glyphicon-user form-control-feedback"></span>
                     </div>
@@ -71,44 +71,50 @@
                         @Html.ValidationMessageFor(m => m.Surname, "", new { @class = "text-danger" })
                         <span class="glyphicon glyphicon-user form-control-feedback"></span>
                     </div>
-                    <div class="form-group has-feedback">
-                        <div class="col-xs-8">
-                            <div class="checkbox icheck">
-                                <label>
-                                    @Html.CheckBoxFor(m => m.Admin)
-                                    @Html.LabelFor(m => m.Admin)
-                                </label>
-                            </div>
-                            <div class="checkbox icheck">
-                                <label>
-                                    @Html.CheckBoxFor(m => m.Doctor)
-                                    @Html.LabelFor(m => m.Doctor)
-                                </label>
-                            </div>
-                        </div>
-                        <!-- /.col -->
-                        <div class="col-xs-4">
-                            <button type="submit" class="btn btn-primary btn-block btn-flat">Salva Dati</button>
-                        </div>
-
-                    </div>
+              
+                    <div class="col-xs-4">
+                               <button type = "submit" class="btn btn-primary btn-block btn-flat">Aggiorna Dati</button>
+                           </div>
                         }
                         @if(TempData["Success"] != null)
-                        {
+                            {
                             <script>alert("Aggiornato i dati con successo");</script>
-                            @TempData["Success"]= null;
-                        }
-                    </section>
 
-                    <div class="form-group has-feedback">
-                        @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password" })
-                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-                        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-                    </div>
-                    @*<section id="socialLoginForm">
-                        @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
-                    </section>*@
-                </div>
+                            }
+                    </section>
+                
+                     <section id="chgpswForm">
+                         @using (Html.BeginForm("UpdatePsw", "Signup", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                         {
+                          @Html.AntiForgeryToken()
+                             <div class="form-group has-feedback">
+                                @Html.HiddenFor(m => m.Id);
+                             </div>
+                            <div class="form-group has-feedback">
+                                @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Vecchia Password" })
+                                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                            </div>
+                            <div class="form-group has-feedback">
+                            <input type="password" class="form-control" placeholder="Nuova Password" name="newPassword" />
+                                
+                            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                            </div>
+                           <div class="form-group has-feedback">
+                             
+                              <input type="password" class="form-control" placeholder="Ripeti Nuova Password" name="confirmPassword" />
+                             <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                           </div>
+                           <div class="col-xs-4">
+                               <button type="submit" class="btn btn-primary btn-block btn-flat">Aggiorna Password</button>
+                           </div>
+                         }
+
+                         </section>
+                                @*<section id="socialLoginForm">
+            @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+        </section>*@
+</div>
                 <!-- /.login - box - body-->
             </div>
         </div>

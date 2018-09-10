@@ -90,7 +90,56 @@ namespace Health.Web.Controllers
             return View("Update");
 
         }
+        //----------------------------------------------------------------------------------
 
+        [HttpPost]
+        public IActionResult UpdatePsw(int id, string password,string newPassword,string confirmPassword)
+        {
+            if(password !=String.Empty && newPassword !=String.Empty && confirmPassword !=String.Empty){
+                if(newPassword==confirmPassword){
+                    User userModel = new User();
+                    //valido il campo mail con regex e inserisco errore nello state model
+
+
+                    User usr = GetUserInformation(Convert.ToInt32(HttpContext.Request.Cookies["User"].ToString()), _configuration);
+                    if (usr.Password==password){
+                        usr.Password = newPassword;
+                        UpdateUserToDB(usr);
+                    }else{
+                        ModelState.AddModelError("Password", "Password attuale errata");
+                    }
+                    //se ci sono errori di validazione torna alla login con visualizzazione errore
+                    /*if (!ModelState.IsValid)
+                    {
+                        return View("Update");
+                    }
+
+                    if (HttpContext.Request.Method == "POST")
+                    {
+                        if (UpdateUserToDB(user))
+                        {
+                            TempData["Success"] = "Modifica avvenuta corretamente";
+                            ViewBag.OprationStatus = "Modifica avvenuta corretamente";
+                        }
+                        else
+                        {
+                            ViewBag.OprationStatus = "Errore in fase di aggiornamento";
+                        }
+
+
+                    }  */  
+                }else{
+                    ModelState.AddModelError("Password", "I campi per la nuova password non coincidono");
+                }
+
+            }else{
+                ModelState.AddModelError("Password", "Compilare la vecchia password e due volte la password nuova");
+            }
+
+
+            return View("Update");
+
+        }
         //-----------------------------------------------------------------------------------
         public bool WriteUserToDB(User user)
         {
@@ -140,6 +189,10 @@ namespace Health.Web.Controllers
 
             return false;
         }
+
+       
+        //----------------------------------------------------------------------------------
+
 
         //-------------------------------------------------------------------------------------
        

@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Health.Web.Data;
 using Health.Web.Models;
+using LinqToDB;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
@@ -43,6 +44,23 @@ namespace Health.Web.Controllers
 
             }
             return null;
+        }
+
+        public bool UpdateUserToDB(User user,IConfiguration _configuration)
+        {
+            MyDataContext dataContext = new MyDataContext();
+            var context = (IDataContextFactory<HealthDataContext>)dataContext.GetMyDataContextContext(_configuration);
+
+            using (var db = context.Create())
+            {
+                if (db.Update(user) > 0)
+                {
+                    return true;
+                }
+
+            }
+
+            return false;
         }
        
     }

@@ -16,7 +16,7 @@ namespace Health.Web.Controllers
 {
     public class AdminController : BaseController
     {
-        private IConfiguration _configuration;
+        public IConfiguration _configuration;
 
         public AdminController(IConfiguration configuration)
         {
@@ -169,6 +169,35 @@ namespace Health.Web.Controllers
             }
 
             return false;
+        }
+
+        //----------------------------------------------------------------------------------
+        [HttpPost]
+        public IActionResult UpdateSingleUser(string id,bool chck_admin,bool chk_doctor)
+        {
+
+            //valido il campo mail con regex e inserisco errore nello state model
+
+            if (HttpContext.Request.Method == "POST")
+            {
+                User user = GetUserInformation(Convert.ToInt32(id), _configuration);
+                user.Admin = chck_admin;
+                user.Doctor = chk_doctor;
+                if (UpdateUserToDB(user,_configuration))
+                {
+                    TempData["Success"] = "Modifica avvenuta corretamente";
+                    ViewBag.OprationStatus = "Modifica avvenuta corretamente";
+                }
+                else
+                {
+                    ViewBag.OprationStatus = "Errore in fase di aggiornamento";
+                }
+
+
+            }
+
+            return View("Show");
+
         }
 
     }
